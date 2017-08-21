@@ -1,0 +1,36 @@
+h1 {
+    margin: 0 auto;
+    padding: 50px 0 30px 0;
+    text-align: center;
+}
+
+#flavor_text {
+    margin: 0 auto;
+    padding-bottom: 30px;
+    text-align: center;
+}
+
+#button {
+    margin: 0 auto;
+    border: 1px solid red;
+    text-align: center;
+    width: 120px;
+    height: 30px;
+}
+
+#button::before {
+    height: 100%;
+    content: '';
+    vertical-align: middle;
+    display: inline-block;
+}
+
+#button:hover {
+    background-color: #d41832;
+}
+
+#button a {
+    color: red;
+    text-decoration: none;
+    vertical-align: middle;
+}

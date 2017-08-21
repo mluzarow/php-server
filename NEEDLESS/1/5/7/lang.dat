@@ -1,0 +1,27 @@
+##############################################################################
+##                                                                          ##
+##                               READ THIS                                  ##
+## ------------------------------------------------------------------------ ##
+## The following language file is structured in the following manner:       ##
+##      [langTag] [boxTop] [boxLeft] [style] [content]                      ##
+##                                                                          ##
+##      [langTag]   The two character language code for the language in     ##
+##                  in which the textbox content is written.                ##
+##      [boxTop]    The percentage delta between the top of the image and   ##
+##                  the top of the division in which the translation        ##
+##                  content resides.                                        ##
+##      [boxLeft]   The difference, in pixels, between the left of the      ##
+##                  image at its base resolution and the left of the        ##
+##                  textbox.                                                ##
+##      [style]     Standard CSS styling to be applied to the textbox.      ##
+##      [content]   The HTML content (probably just text) of the textbox.   ##
+##############################################################################
+
+en 6.8% 77% 8vw 3vw "" "AND SO, ARC ..."
+en 14.5% 8.5% 14vw 2vw "" "THAT'S HOW I BECAME THE ERRAND BOY AT THE CHURCH."
+en 26.5% 77.2% 16vw 2vw "" "I GUESS I'M THANKFUL TO BOTH OF THEM... BUT EVE HAS REALLY WEIRD TASTES IN DRINKS,"
+en 48.5% 8.3% 19vw 2vw "" "AND THE FATHER WON'T DO AN OUNCE OF WORK. AND NOW EVERYONE CALLS ME YAMADA. I WANT TO DO SOMETHING ABOUT IT."
+en 72.4% 17.7% 1vw 1.3vw "word-break:break-all;" "STEP . . ."
+en 69% 66.2% 5vw 2.5vw "" "HUH ?"
+en 79.5% 79.5% 1vw 2.15vw "word-break:break-all;" "STEP"
+en 85.5% 77.3% 1vw 1.7vw "word-break:break-all;" "STEP"

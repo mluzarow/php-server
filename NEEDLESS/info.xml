@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<info>
+	<top>
+		<name>
+			Needless
+		</name>
+		<author>
+			Kami Imai
+		</author>
+		<year>
+			2003
+		</year>
+		<type>
+			Seinen
+		</type>
+		<indie>
+			0
+		</indie>
+		<originals>
+			0
+		</originals>
+
+		<scanlators>
+			1
+		</scanlators>
+
+		<scanlator>
+			<thisScanlator>
+				1
+			</thisScanlator>
+			<name>
+				TestScans
+			</name>
+			<website>
+				NoSite
+			</website>
+		</scanlator>
+	</top>
+
+	<content>
+		<finished>
+			1
+		</finished>
+
+		<totalVol>
+			1
+		</totalVol>
+
+		<volume>
+			<thisVolume>
+				1
+			</thisVolume>
+			<volumeName>
+				1
+			</volumeName>
+			<name>
+				Volume 5
+			</name>
+			<subtitle>
+			</subtitle>
+
+			<volumeChapters>
+				1
+			</volumeChapters>
+
+			<chapter>
+				<thisChapter>
+					5
+				</thisChapter>
+				<chapterName>
+					5
+				</chapterName>
+				<pageCount>
+					28
+				</pageCount>
+				<name>
+					The Magician Uten I
+				</name>
+				<subtitle>
+				</subtitle>
+
+				<original>
+					0
+				</original>
+			</chapter>
+        </volume>
+	</content>
+</info>

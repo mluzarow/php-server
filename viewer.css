@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+}
+
+#navigation {
+    padding-bottom: 10px;
+    width: 100%;
+    display: flex;
+    border-bottom: 2px solid blue;
+}
+
+#nav_left {
+    margin-top: 10px;
+    margin-left: 10px;
+    flex: 1;
+}
+
+select {
+    padding: 8px 0;
+    width: 100%;
+    display: block;
+}
+
+#nav_right {
+    margin: 10px 10px 0 5px;
+    border: 1px solid black;
+    flex: 4;
+}
+
+#page {
+    position: relative;
+    margin: 0 auto;
+    width: 90%;
+}
+
+#page img {
+    width: 100%;
+}
+
+#page .generic_trans_box {
+    position: absolute;
+    text-align: center;
+    line-height: 123%;
+    font-family: "Comic Sans MS";
+}
