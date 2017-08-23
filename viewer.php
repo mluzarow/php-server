@@ -6,6 +6,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="stylesheet" type="text/css" href="viewer.css" media="all">
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
         <title>Test Page</title>
     </head>
     <body>
@@ -28,7 +30,13 @@
             </div>
         </div>
         <div id = "page">
-            <?php ReaderView::getPage (); ?>
+            <?php ReaderView::getPage ('en'); ?>
         </div>
+        <select id = "language">
+            <option value="en">English</option>
+            <option value="jp">日本語</option>
+        </select>
     </body>
+
+    <script type="text/javascript" src="updater.js"></script>
 </html>

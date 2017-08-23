@@ -67,7 +67,7 @@ function getImageFromArchive ($path, $vol, $chap, $page) {
     return ($base);
 }
 
-function getTraslationContent ($path, $vol, $chap, $page) {
+function getTraslationContent ($path, $vol, $chap, $page, $tag) {
     $langFile = file_get_contents('zip://' . $path . '#' . str_replace ('.manga', '', $path) . '/' . $vol . '/' . $chap . '/' . 7 . '/' . 'lang.dat');
     $langArray = explode("\n", $langFile);
 
@@ -78,7 +78,10 @@ function getTraslationContent ($path, $vol, $chap, $page) {
             preg_match('/([a-zA-Z][a-zA-Z]) (\d+[.]?\d*?)% (\d+[.]?\d*?)% (\d+[.]?\d*?)vw (\d+[.]?\d*?)vw \"(.*)\" \"(.*)\"/', $line, $matches);
 
             if (!empty ($matches)) {
-                $boxList [] = new TranslationBox ($matches [1], $matches [2], $matches [3], $matches [4], $matches [5], $matches [6], $matches [7]);
+                // Tag check
+                if ($matches[1] == $tag) {
+                    $boxList [] = new TranslationBox ($matches [1], $matches [2], $matches [3], $matches [4], $matches [5], $matches [6], $matches [7]);
+                }
             }
         }
         $i++;

@@ -45,7 +45,7 @@ class ReaderView {
         // echo ('TBD');
     }
 
-    public static function getPage () {
+    public static function getPage ($tag) {
         $imageFile = getImageFromArchive (
             "NEEDLESS.manga",
             ReaderView::$currentVolume->n,
@@ -57,21 +57,26 @@ class ReaderView {
             "NEEDLESS.manga",
             ReaderView::$currentVolume->n,
             ReaderView::$currentChapter->n,
-            ReaderView::$currentPage
+            ReaderView::$currentPage,
+            $tag
         );
 
         echo '<div id=\'translation_section\'>' .
-                '<?php ReaderView::getPageTranslations (\'en\'); ?>' .
+                ReaderView::getPageTranslations () .
             '</div>';
 
-        echo "<img class=\'page_output\' src='data:image/png;base64,$imageFile' alt='page'>";
+        echo "<img class='page_output' src='data:image/png;base64,$imageFile' alt='page'>";
     }
 
-    public static function getPageTranslations ($tag) {
+    public static function getPageTranslations () {
+        $output = '';
+
         foreach (ReaderView::$translations as $tran) {
             $styling = 'top:' . $tran->top . '%;left:' . $tran->left . '%;width:' . $tran->width . 'vw;font-size:' . $tran->fontSize . 'vw;' . $tran->style;
-            echo '<div class=\'generic_trans_box\' style=\'' . $styling . '\'>' . $tran->content . '</div>';
+            $output .= '<div class=\'generic_trans_box\' style=\'' . $styling . '\'>' . $tran->content . '</div>';
         }
+
+        return $output;
     }
 }
 
