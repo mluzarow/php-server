@@ -16,6 +16,10 @@ if (isset($_POST ['view'])) {
             break;
         case ('select_page'):
             ReaderView::buildDropdownPage ($_POST ['v'], $_POST ['c'], $_POST ['p']);
+            break;
+        case ('main_title'):
+            ReaderView::buildTitle ();
+            break;
     }
 }
 
@@ -25,6 +29,10 @@ if (isset($_POST ['view'])) {
 class ReaderView {
     public static $mangaInfo;
     // public static $translations;
+
+    public static function buildTitle () {
+        echo ReaderView::$mangaInfo->title . 'Manga';
+    }
 
     public static function buildDropdownVolume ($v) {
         $output = '';
