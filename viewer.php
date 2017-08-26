@@ -10,29 +10,24 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-        <title><?php echo $mangaInfo->title; ?> Manga</title>
+        <title id = "main_title"></title>
     </head>
     <body>
         <div id = "navigation">
             <div id = "nav_left">
                 <select id = "select_volume">
-                    <?php //$dropdown_builder->buildDropdownVolume(); ?>
                 </select>
                 <select id = "select_chapter">
-                    <?php //ReaderView::generateDropdownChapter (); ?>
                 </select>
                 <select id = "select_page">
-                    <?php //ReaderView::generateDropdownPage (); ?>
                 </select>
             </div>
             <div id = "nav_right">
                 <div id = "scroller_container">
-                    <?php //generateScrollerItems (); ?>
                 </div>
             </div>
         </div>
         <div id = "page">
-            <?php //ReaderView::getPage (); ?>
         </div>
         <select id = "language">
             <option value="en">English</option>
