@@ -1,6 +1,11 @@
 <?php
 require 'ReaderController.php';
 
+use DropdownVolumeView;
+
+// Get external params
+$q = $_GET ['q'];
+var_dump ($q);
 /**
 * Generates HTML dropdown options based on the amount of volumes in the file.for
 */
@@ -11,15 +16,15 @@ class ReaderView {
     public static $currentPage;
     public static $translations;
 
-    public static function generateDropdownVolume () {
-        $output = '';
-
-        foreach (ReaderView::$mangaInfo->volumes as $volume) {
-            $output .= "<option>$volume->title</option>";
-        }
-
-        echo ($output);
-    }
+    // public static function generateDropdownVolume () {
+    //     $output = '';
+    //
+    //     foreach (ReaderView::$mangaInfo->volumes as $volume) {
+    //         $output .= "<option>$volume->title</option>";
+    //     }
+    //
+    //     echo ($output);
+    // }
 
     public static function generateDropdownChapter () {
         $output = '';
@@ -45,7 +50,7 @@ class ReaderView {
         // echo ('TBD');
     }
 
-    public static function getPage ($tag) {
+    public static function getPage () {
         $imageFile = getImageFromArchive (
             "NEEDLESS.manga",
             ReaderView::$currentVolume->n,
@@ -53,12 +58,16 @@ class ReaderView {
             ReaderView::$currentPage
         );
 
+	//if (!isset ($q)) {
+	//    $q = 'en';
+	//}
+	//var_dump ($q);
         ReaderView::$translations = getTraslationContent (
             "NEEDLESS.manga",
             ReaderView::$currentVolume->n,
             ReaderView::$currentChapter->n,
             ReaderView::$currentPage,
-            $tag
+            $q
         );
 
         echo '<div id=\'translation_section\'>' .

@@ -1,4 +1,18 @@
 <?php
+/**
+ * Creates a new Manga object holding meta information regarding the current
+ * selected manga archive pointed to by $path.
+ *
+ * @uses  ReaderController::Manga    Container for all manga meta information.
+ * @uses  ReaderController::Volume   Container for volume-level meta information.
+ * @uses  ReaderController::Chapter  Container for chapter-level meta information.
+ *
+ * @param  string  $path  The archive filename. E.G. "Title.manga".
+ *
+ * @return  Manga  $thisManga  Instance of Manga containing meta information
+ *                             regarding the currently selected manga archive
+ *                             pointed to by $path.
+ */
 function generateMangaInfo ($path) {
     if (file_exists ($path)) {
         $xml_data = file_get_contents('zip://' . $path . '#' . str_replace ('.manga', '', $path) . '/info.xml');
@@ -60,13 +74,40 @@ function generateMangaInfo ($path) {
     return ($thisManga);
 }
 
-function getImageFromArchive ($path, $vol, $chap, $page) {
+/**
+ * Extracts raw image data from the manga archive and encodes in base 64 for
+ * rendering onto page.
+ *
+ * @param  string  $path  The archive filename. E.G. "Title.manga".
+ * @param  int     $vol   Archive's index of the targeted volume.
+ * @param  int     $chap  Archive's index of the targeted chapter.
+ * @param  int     $page  Archive's index of the targeted page.
+ *
+ * @return  string  $base  Image data converted to base 64 rendered as a string.
+ */
+function getImageFromArchive (string $path, int $vol, int $chap, int $page) {
     $base = file_get_contents('zip://' . $path . '#' . str_replace ('.manga', '', $path) . '/' . $vol . '/' . $chap . '/' . 7 . '/' . 'base.png');
     $base = base64_encode ($base);
 
     return ($base);
 }
 
+/**
+ * Creates translation objects from lang.dat translation files found in each
+ * page's index directory.
+ *
+ * @uses ReaderController::TranslationBox  Container for translation data and
+ *                                         CSS styling.
+ *
+ * @param  string  $path  The archive filename. E.G. "Title.manga".
+ * @param  int     $vol   Archive's index of the targeted volume.
+ * @param  int     $chap  Archive's index of the targeted chapter.
+ * @param  int     $page  Archive's index of the targeted page.
+ * @param  string  $tag   Language tag used for selecting translation content.
+ *
+ * @return  array  $boxList  Collection of TranslationBox objects containing
+ *                           translation and render data for each textbox.
+ */
 function getTraslationContent ($path, $vol, $chap, $page, $tag) {
     $langFile = file_get_contents('zip://' . $path . '#' . str_replace ('.manga', '', $path) . '/' . $vol . '/' . $chap . '/' . 7 . '/' . 'lang.dat');
     $langArray = explode("\n", $langFile);
@@ -74,6 +115,7 @@ function getTraslationContent ($path, $vol, $chap, $page, $tag) {
     $i = 1;
     $boxList = array ();
     foreach ($langArray as $line) {
+        // Hardcoded file header skip. Not really necessary anymore.
         if ($i >= 20) {
             preg_match('/([a-zA-Z][a-zA-Z]) (\d+[.]?\d*?)% (\d+[.]?\d*?)% (\d+[.]?\d*?)vw (\d+[.]?\d*?)vw \"(.*)\" \"(.*)\"/', $line, $matches);
 
@@ -90,6 +132,11 @@ function getTraslationContent ($path, $vol, $chap, $page, $tag) {
     return ($boxList);
 }
 
+/**
+ * Holds translation data and CSS styling for a single textbox.
+ *
+ * @usedby ReaderController::getTraslationContent()
+ */
 class TranslationBox {
     function __construct ($tag, $top, $left, $width, $fontSize, $style, $content) {
         $this->tag = $tag;
@@ -102,6 +149,13 @@ class TranslationBox {
     }
 }
 
+/**
+ * Contains meta information regarding the entirety of a .manga archive. Will be
+ * generated based on the information provided in the info.xml file found at the
+ * root of the archive. E.G. MangaTitle/info.xml.
+ *
+ * @usedby ReaderController::generateMangaInfo()
+ */
 class Manga {
     function __construct ($title=null, $author=null, $year=null, $isIndependent=null, $numOriginals=null, $scanlators=null, $isFinished=null, $numVolumes=null, $volumes=null) {
         $this->title = $title;
@@ -116,21 +170,13 @@ class Manga {
     }
 }
 
-class Original {
-    function __construct ($n=null, $title=null) {
-        $this->n = $n;
-        $this->title = $title;
-    }
-}
-
-class Scanlator {
-    function __construct ($n=null, $title=null, $website=null) {
-        $this->n = $n;
-        $this->title = $title;
-        $this->website = $website;
-    }
-}
-
+/**
+ * Contains meta information regarding a single volume of a .manga archive. Will
+ * be generated based on the information provided in the info.xml file found at
+ * the root of the archive. E.G. MangaTitle/info.xml.
+ *
+ * @usedby ReaderController::generateMangaInfo()
+ */
 class Volume {
     function __construct ($n=null, $name=null, $title=null, $subtitle=null, $chapter=null) {
         $this->n = $n;
@@ -141,6 +187,13 @@ class Volume {
     }
 }
 
+/**
+ * Contains meta information regarding a single chapter of a .manga archive. Will
+ * be generated based on the information provided in the info.xml file found at
+ * the root of the archive. E.G. MangaTitle/info.xml.
+ *
+ * @usedby ReaderController::generateMangaInfo()
+ */
 class Chapter {
     function __construct ($n=-1, $name='', $pages=0, $title='', $subtitle='',
                         $hasOriginal=false, $originalN=0, $originalVolume=null,
@@ -161,5 +214,27 @@ class Chapter {
         $this->scanDay = $scanDay;
         $this->scanMonth = $scanMonth;
         $this->scanYear = $scanYear;
+    }
+}
+
+/**
+ * Contains meta information regarding an original source, such as a composite
+ * magazine, in which the manga was originaly hosted.
+ */
+class Original {
+    function __construct ($n=null, $title=null) {
+        $this->n = $n;
+        $this->title = $title;
+    }
+}
+
+/**
+ * Contains meta information regarding a scanlation group.
+ */
+class Scanlator {
+    function __construct ($n=null, $title=null, $website=null) {
+        $this->n = $n;
+        $this->title = $title;
+        $this->website = $website;
     }
 }
