@@ -15,9 +15,12 @@
  */
 function generateMangaInfo ($path) {
     if (file_exists ($path)) {
-        $xml_data = file_get_contents('zip://' . $path . '#' . str_replace ('.manga', '', $path) . '/info.xml');
+        $manga_title = str_replace ('.manga', '', $path);
+        $xml_data = file_get_contents("zip://$path#$manga_title/info.xml");
     } else {
-        echo "<span style='display: block; text-align: center; color: red;'>Could not find file specified: $path</span>";
+        echo "<span style='display: block; text-align: center; color: red;'>
+                Could not find file specified: $path
+            </span>";
         exit;
     }
 
@@ -25,7 +28,9 @@ function generateMangaInfo ($path) {
         // Read the XML file in order to organize files.
         $xml = simplexml_load_string ($xml_data);
     } else {
-        echo "<span style='display: block; text-align: center; color: red;'>Failed to load info.xml for file: $path</span>";
+        echo "<span style='display: block; text-align: center; color: red;'>
+                Failed to load info.xml for file: $path
+            </span>";
         exit;
     }
 
@@ -85,8 +90,12 @@ function generateMangaInfo ($path) {
  *
  * @return  string  $base  Image data converted to base 64 rendered as a string.
  */
-function getImageFromArchive (string $path, int $vol, int $chap, int $page) {
-    $base = file_get_contents('zip://' . $path . '#' . str_replace ('.manga', '', $path) . '/' . $vol . '/' . $chap . '/' . 7 . '/' . 'base.png');
+function getImageFromArchive (string $path, $vol, $chap, $page) {
+    // Temporary
+    $page = 7;
+
+    $manga_title = str_replace ('.manga', '', $path);
+    $base = file_get_contents("zip://$path#$manga_title/$vol/$chap/$page/base.png");
     $base = base64_encode ($base);
 
     return ($base);
@@ -109,7 +118,11 @@ function getImageFromArchive (string $path, int $vol, int $chap, int $page) {
  *                           translation and render data for each textbox.
  */
 function getTraslationContent ($path, $vol, $chap, $page, $tag) {
-    $langFile = file_get_contents('zip://' . $path . '#' . str_replace ('.manga', '', $path) . '/' . $vol . '/' . $chap . '/' . 7 . '/' . 'lang.dat');
+    // Temporary
+    $page = 7;
+
+    $manga_title = str_replace ('.manga', '', $path);
+    $langFile = file_get_contents("zip://$path#$manga_title/$vol/$chap/$page/lang.dat");
     $langArray = explode("\n", $langFile);
 
     $i = 1;
@@ -122,7 +135,15 @@ function getTraslationContent ($path, $vol, $chap, $page, $tag) {
             if (!empty ($matches)) {
                 // Tag check
                 if ($matches[1] == $tag) {
-                    $boxList [] = new TranslationBox ($matches [1], $matches [2], $matches [3], $matches [4], $matches [5], $matches [6], $matches [7]);
+                    $boxList [] = new TranslationBox (
+                        $matches [1],
+                        $matches [2],
+                        $matches [3],
+                        $matches [4],
+                        $matches [5],
+                        $matches [6],
+                        $matches [7]
+                    );
                 }
             }
         }
