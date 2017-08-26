@@ -9,6 +9,9 @@ if (isset($_POST ['view'])) {
         case ('image'):
             ReaderView::buildImage ($_POST ['v'], $_POST ['c'], $_POST ['p']);
             break;
+        case ('translations'):
+            ReaderView::buildTranslations ($_POST ['v'], $_POST ['c'], $_POST ['p'], $_POST ['tag']);
+            break;
         case ('select_volume'):
             ReaderView::buildDropdownVolume ($_POST ['v']);
             break;
@@ -29,7 +32,6 @@ if (isset($_POST ['view'])) {
 */
 class ReaderView {
     public static $mangaInfo;
-    // public static $translations;
 
     public static function buildTitle () {
         echo ReaderView::$mangaInfo->title . 'Manga';
@@ -76,28 +78,22 @@ class ReaderView {
         echo "<img src='data:image/png;base64,$imageFile' alt='page'>";
     }
 
-    // public static function getPage () {
-    //     ReaderView::$translations = getTraslationContent (
-    //         "NEEDLESS.manga",
-    //         ReaderView::$currentVolume->n,
-    //         ReaderView::$currentChapter->n,
-    //         ReaderView::$currentPage,
-    //         $q
-    //     );
-    //
-    //     echo '<div id=\'translation_section\'>' .
-    //             ReaderView::getPageTranslations () .
-    //         '</div>';
-    // }
+    public static function buildTranslations ($v, $c, $p, $tag) {
+        $translations = getTraslationContent (
+            "NEEDLESS.manga",
+            ReaderView::$mangaInfo->volumes [$v]->n,
+            ReaderView::$mangaInfo->volumes [$v]->chapters [$c]->n,
+            $p,
+            $tag
+        );
 
-    // public static function getPageTranslations () {
-    //     $output = '';
-    //
-    //     foreach (ReaderView::$translations as $tran) {
-    //         $styling = 'top:' . $tran->top . '%;left:' . $tran->left . '%;width:' . $tran->width . 'vw;font-size:' . $tran->fontSize . 'vw;' . $tran->style;
-    //         $output .= '<div class=\'generic_trans_box\' style=\'' . $styling . '\'>' . $tran->content . '</div>';
-    //     }
-    //
-    //     return $output;
-    // }
+        $output = '';
+
+        foreach ($translations as $tran) {
+            $styling = 'top:' . $tran->top . '%;left:' . $tran->left . '%;width:' . $tran->width . 'vw;font-size:' . $tran->fontSize . 'vw;' . $tran->style;
+            $output .= '<div class=\'generic_trans_box\' style=\'' . $styling . '\'>' . $tran->content . '</div>';
+        }
+
+        echo $output;
+    }
 }
