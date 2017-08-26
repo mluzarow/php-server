@@ -1,4 +1,8 @@
 <?php
+
+// Set up metadata variable
+$mangaInfo = generateMangaInfo ("NEEDLESS.manga");
+
 /**
  * Creates a new Manga object holding meta information regarding the current
  * selected manga archive pointed to by $path.

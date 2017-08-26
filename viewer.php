@@ -1,6 +1,5 @@
 <?php
-    require 'ReaderInit.php';
-    //require 'ReaderView.php';
+    require 'ReaderView.php';
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -11,13 +10,13 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-        <title><?php echo $reader->mangaInfo->title; ?> Manga</title>
+        <title><?php echo $mangaInfo->title; ?> Manga</title>
     </head>
     <body>
         <div id = "navigation">
             <div id = "nav_left">
                 <select id = "select_volume">
-                    <?php //$this->buildDropdownVolume();//ReaderView::generateDropdownVolume (); ?>
+                    <?php //$dropdown_builder->buildDropdownVolume(); ?>
                 </select>
                 <select id = "select_chapter">
                     <?php //ReaderView::generateDropdownChapter (); ?>

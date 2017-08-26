@@ -3,7 +3,7 @@ require 'ReaderController.php';
 
 /**
  * Initialization object which maintains viewer meta data relating to the
- * current manga as well as the position within that manga.
+ * current manga.
  */
 class Reader {
     /**
