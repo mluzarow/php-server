@@ -10,28 +10,6 @@ $(document).ready (function () {
     refreshDropdownView ('select_page', currentVolume, currentChapter, currentPage);
 });
 
-function renderTitleView (view) {
-    $.ajax({
-        type: 'POST',
-        url: 'ReaderView.php',
-        data: {
-            'view' : view
-        },
-        cache: false,
-        success: function(response) {
-            $('#main_title').html (response);
-        },
-        error: function(xhr) {
-           var response = xhr.responseText;
-           console.log(response);
-           var statusMessage = xhr.status + ' ' + xhr.statusText;
-           var message  = 'Query failed, php script returned this status: ';
-           var message = message + statusMessage + ' response: ' + response;
-           alert(message);
-        }
-    });
-}
-
 function refreshDropdownView (view, v, c, p) {
     $.ajax({
         type: 'POST',
@@ -45,6 +23,28 @@ function refreshDropdownView (view, v, c, p) {
         cache: false,
         success: function(response) {
             $('#' + view).html (response);
+        },
+        error: function(xhr) {
+           var response = xhr.responseText;
+           console.log(response);
+           var statusMessage = xhr.status + ' ' + xhr.statusText;
+           var message  = 'Query failed, php script returned this status: ';
+           var message = message + statusMessage + ' response: ' + response;
+           alert(message);
+        }
+    });
+}
+
+function renderTitleView (view) {
+    $.ajax({
+        type: 'POST',
+        url: 'ReaderView.php',
+        data: {
+            'view' : view
+        },
+        cache: false,
+        success: function(response) {
+            $('#main_title').html (response);
         },
         error: function(xhr) {
            var response = xhr.responseText;
