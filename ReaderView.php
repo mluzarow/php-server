@@ -5,9 +5,10 @@ require 'ReaderController.php';
 ReaderView::$mangaInfo = $mangaInfo;
 
 if (isset($_POST ['view'])) {
-    $view = $_POST ['view'];
-
-    switch ($view) {
+    switch ($_POST ['view']) {
+        case ('image'):
+            ReaderView::buildImage ($_POST ['v'], $_POST ['c'], $_POST ['p']);
+            break;
         case ('select_volume'):
             ReaderView::buildDropdownVolume ($_POST ['v']);
             break;
@@ -64,22 +65,18 @@ class ReaderView {
         echo ($output);
     }
 
-    // public static function generateScrollerItems () {
-    //     // echo ('TBD');
-    // }
+    public static function buildImage ($v, $c, $p) {
+        $imageFile = getImageFromArchive (
+            "NEEDLESS.manga",
+            ReaderView::$mangaInfo->volumes [$v]->n,
+            ReaderView::$mangaInfo->volumes [$v]->chapters [$c]->n,
+            $p
+        );
+
+        echo "<img src='data:image/png;base64,$imageFile' alt='page'>";
+    }
 
     // public static function getPage () {
-    //     $imageFile = getImageFromArchive (
-    //         "NEEDLESS.manga",
-    //         ReaderView::$currentVolume->n,
-    //         ReaderView::$currentChapter->n,
-    //         ReaderView::$currentPage
-    //     );
-    //
-	// //if (!isset ($q)) {
-	// //    $q = 'en';
-	// //}
-	// //var_dump ($q);
     //     ReaderView::$translations = getTraslationContent (
     //         "NEEDLESS.manga",
     //         ReaderView::$currentVolume->n,
@@ -91,8 +88,6 @@ class ReaderView {
     //     echo '<div id=\'translation_section\'>' .
     //             ReaderView::getPageTranslations () .
     //         '</div>';
-    //
-    //     echo "<img class='page_output' src='data:image/png;base64,$imageFile' alt='page'>";
     // }
 
     // public static function getPageTranslations () {

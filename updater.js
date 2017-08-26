@@ -8,7 +8,33 @@ $(document).ready (function () {
     refreshDropdownView ('select_volume', currentVolume, currentChapter, currentPage);
     refreshDropdownView ('select_chapter', currentVolume, currentChapter, currentPage);
     refreshDropdownView ('select_page', currentVolume, currentChapter, currentPage);
+    refreshImage ('image', currentVolume, currentChapter, currentPage)
 });
+
+function refreshImage (view, v, c, p) {
+    $.ajax({
+        type: 'POST',
+        url: 'ReaderView.php',
+        data: {
+            'view' : view,
+            'v' : v,
+            'c' : c,
+            'p' : p
+        },
+        cache: false,
+        success: function(response) {
+            $('#image').html (response);
+        },
+        error: function(xhr) {
+           var response = xhr.responseText;
+           console.log(response);
+           var statusMessage = xhr.status + ' ' + xhr.statusText;
+           var message  = 'Query failed, php script returned this status: ';
+           var message = message + statusMessage + ' response: ' + response;
+           alert(message);
+        }
+    });
+}
 
 function refreshDropdownView (view, v, c, p) {
     $.ajax({

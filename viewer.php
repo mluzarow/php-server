@@ -28,6 +28,10 @@
             </div>
         </div>
         <div id = "page">
+            <div id = "translations">
+            </div>
+            <div id = "image">
+            </div>
         </div>
         <select id = "language">
             <option value="en">English</option>
