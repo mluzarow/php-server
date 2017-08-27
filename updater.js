@@ -8,15 +8,20 @@ $(document).ready (function () {
     refreshDropdownView ('select_volume', currentVolume, currentChapter, currentPage);
     refreshDropdownView ('select_chapter', currentVolume, currentChapter, currentPage);
     refreshDropdownView ('select_page', currentVolume, currentChapter, currentPage);
-    refreshImage ('image', currentVolume, currentChapter, currentPage);
+    refreshImage ('image', currentVolume, currentChapter, currentPage, 'n');
     refreshTranslations ('translations', currentVolume, currentChapter, currentPage, 'en');
 });
 
 $('#language').change (function () {
     var tag = $(this).val ();
-    console.log ("Language changed to " + tag + "!");
 
     refreshTranslations ('translations', currentVolume, currentChapter, currentPage, tag);
+});
+
+$('#color').change (function () {
+    var color = $(this).val ();
+
+    refreshImage ('image', currentVolume, currentChapter, currentPage, color);
 });
 
 function refreshTranslations (view, v, c, p, tag) {
@@ -45,7 +50,7 @@ function refreshTranslations (view, v, c, p, tag) {
     });
 }
 
-function refreshImage (view, v, c, p) {
+function refreshImage (view, v, c, p, color) {
     $.ajax({
         type: 'POST',
         url: 'ReaderView.php',
@@ -53,7 +58,8 @@ function refreshImage (view, v, c, p) {
             'view' : view,
             'v' : v,
             'c' : c,
-            'p' : p
+            'p' : p,
+            'color' : color
         },
         cache: false,
         success: function(response) {

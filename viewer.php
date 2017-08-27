@@ -37,6 +37,10 @@
             <option value="en">English</option>
             <option value="jp">日本語</option>
         </select>
+        <select id = "color">
+            <option value="n">Do not use color</option>
+            <option value="y">Use color</option>
+        </select>
     </body>
 
     <script type="text/javascript" src="updater.js"></script>

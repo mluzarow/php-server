@@ -7,7 +7,7 @@ ReaderView::$mangaInfo = $mangaInfo;
 if (isset($_POST ['view'])) {
     switch ($_POST ['view']) {
         case ('image'):
-            ReaderView::buildImage ($_POST ['v'], $_POST ['c'], $_POST ['p']);
+            ReaderView::buildImage ($_POST ['v'], $_POST ['c'], $_POST ['p'], $_POST ['color']);
             break;
         case ('translations'):
             ReaderView::buildTranslations ($_POST ['v'], $_POST ['c'], $_POST ['p'], $_POST ['tag']);
@@ -67,12 +67,13 @@ class ReaderView {
         echo ($output);
     }
 
-    public static function buildImage ($v, $c, $p) {
+    public static function buildImage ($v, $c, $p, $color) {
         $imageFile = getImageFromArchive (
             "NEEDLESS.manga",
             ReaderView::$mangaInfo->volumes [$v]->n,
             ReaderView::$mangaInfo->volumes [$v]->chapters [$c]->n,
-            $p
+            $p,
+            $color
         );
 
         echo "<img src='data:image/png;base64,$imageFile' alt='page'>";
