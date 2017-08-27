@@ -13,6 +13,8 @@
         <title id = "main_title"></title>
     </head>
     <body>
+        <div id = "arrow_left" class = "nav_arrow">&lt;</div>
+        <div id = "arrow_right" class = "nav_arrow">&gt;</div>
         <div id = "navigation">
             <div id = "nav_left">
                 <select id = "select_volume">

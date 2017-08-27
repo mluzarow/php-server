@@ -1,12 +1,16 @@
 body {
     margin: 0;
+    background-color: black;
 }
 
 #navigation {
+    position: relative;
     padding-bottom: 10px;
     width: 100%;
     display: flex;
+    background-color: white;
     border-bottom: 2px solid blue;
+    z-index: 3;
 }
 
 #nav_left {
@@ -27,6 +31,30 @@ select {
     flex: 4;
 }
 
+.nav_arrow {
+    position: fixed;
+    width: 5%;
+    height: 100%;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    font-size: 7vw;
+    vertical-align: middle;
+    z-index: 2;
+}
+
+.nav_arrow::before {
+    width: 0;
+    height: 100%;
+    display: inline-block;
+    content: '';
+    vertical-align: middle;
+}
+
+#arrow_right {
+    right: 0;
+}
+
 #page {
     position: relative;
     margin: 0 auto;
@@ -42,4 +70,14 @@ select {
     text-align: center;
     line-height: 123%;
     font-family: "Comic Sans MS";
+}
+
+#language {
+    margin: 0 auto;
+    width: 90%;
+}
+
+#color {
+    margin: 0 auto;
+    width: 90%;
 }
