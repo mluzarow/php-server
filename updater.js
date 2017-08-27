@@ -24,6 +24,30 @@ $('#color').change (function () {
     refreshImage ('image', currentVolume, currentChapter, currentPage, color);
 });
 
+$("#arrow_left").click(function () {
+    if (currentPage == 0) {
+        if (currentChapter == 0) {
+            if (currentVolume != 0) {
+                currentVolume--;
+                //currentChapter = $mangaInfo->volumes [cur]->numChapters
+                //currentPage = $mangaInfo->volumes [cur]->chapters[cur]->pages
+            }
+        } else {
+            currentChapter--;
+            //currentPage = $mangaInfo->volumes [cur]->chapters[cur]->pages
+        }
+    } else {
+        currentPage--;
+    }
+
+    //refreshImage ('image', currentVolume, currentChapter, currentPage, 'n');
+    //refreshTranslations ('translations', currentVolume, currentChapter, currentPage, 'en');
+});
+
+$("#arrow_right").click(function () {
+    //if (currentPage == )
+});
+
 function refreshTranslations (view, v, c, p, tag) {
     $.ajax({
         type: 'POST',
