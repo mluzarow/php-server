@@ -1,100 +1,100 @@
 <?php
 require 'ReaderController.php';
 
-use DropdownVolumeView;
+// Copy var from controller
+ReaderView::$mangaInfo = $mangaInfo;
 
-// Get external params
-$q = $_GET ['q'];
-var_dump ($q);
+if (isset($_POST ['view'])) {
+    switch ($_POST ['view']) {
+        case ('image'):
+            ReaderView::buildImage ($_POST ['v'], $_POST ['c'], $_POST ['p'], $_POST ['color']);
+            break;
+        case ('translations'):
+            ReaderView::buildTranslations ($_POST ['v'], $_POST ['c'], $_POST ['p'], $_POST ['tag']);
+            break;
+        case ('select_volume'):
+            ReaderView::buildDropdownVolume ($_POST ['v']);
+            break;
+        case ('select_chapter'):
+            ReaderView::buildDropdownChapter ($_POST ['v'], $_POST ['c']);
+            break;
+        case ('select_page'):
+            ReaderView::buildDropdownPage ($_POST ['v'], $_POST ['c'], $_POST ['p']);
+            break;
+        case ('main_title'):
+            ReaderView::buildTitle ();
+            break;
+    }
+}
+
 /**
 * Generates HTML dropdown options based on the amount of volumes in the file.for
 */
 class ReaderView {
     public static $mangaInfo;
-    public static $currentVolume;
-    public static $currentChapter;
-    public static $currentPage;
-    public static $translations;
 
-    // public static function generateDropdownVolume () {
-    //     $output = '';
-    //
-    //     foreach (ReaderView::$mangaInfo->volumes as $volume) {
-    //         $output .= "<option>$volume->title</option>";
-    //     }
-    //
-    //     echo ($output);
-    // }
+    public static function buildTitle () {
+        echo ReaderView::$mangaInfo->title . 'Manga';
+    }
 
-    public static function generateDropdownChapter () {
+    public static function buildDropdownVolume ($v) {
         $output = '';
 
-        foreach (ReaderView::$currentVolume->chapters as $chapter) {
+        foreach (ReaderView::$mangaInfo->volumes as $volume) {
+            $output .= "<option>$volume->title</option>";
+        }
+
+        echo $output;
+    }
+
+    public static function buildDropdownChapter ($v, $c) {
+        $output = '';
+
+        foreach (ReaderView::$mangaInfo->volumes [$v]->chapters as $chapter) {
             $output .= "<option>Chapter $chapter->name: $chapter->title</option>";
         }
 
         echo ($output);
     }
 
-    public static function generateDropdownPage () {
+    public static function buildDropdownPage ($v, $c, $p) {
         $output = '';
 
-        for ($i = 1; $i <= ReaderView::$currentChapter->pages; $i++) {
+        for ($i = 1; $i <= ReaderView::$mangaInfo->volumes [$v]->chapters [$c]->pages; $i++) {
             $output .= "<option>Page: $i</option>";
         }
 
         echo ($output);
     }
 
-    public static function generateScrollerItems () {
-        // echo ('TBD');
-    }
-
-    public static function getPage () {
+    public static function buildImage ($v, $c, $p, $color) {
         $imageFile = getImageFromArchive (
             "NEEDLESS.manga",
-            ReaderView::$currentVolume->n,
-            ReaderView::$currentChapter->n,
-            ReaderView::$currentPage
+            ReaderView::$mangaInfo->volumes [$v]->n,
+            ReaderView::$mangaInfo->volumes [$v]->chapters [$c]->n,
+            $p,
+            $color
         );
 
-	//if (!isset ($q)) {
-	//    $q = 'en';
-	//}
-	//var_dump ($q);
-        ReaderView::$translations = getTraslationContent (
-            "NEEDLESS.manga",
-            ReaderView::$currentVolume->n,
-            ReaderView::$currentChapter->n,
-            ReaderView::$currentPage,
-            $q
-        );
-
-        echo '<div id=\'translation_section\'>' .
-                ReaderView::getPageTranslations () .
-            '</div>';
-
-        echo "<img class='page_output' src='data:image/png;base64,$imageFile' alt='page'>";
+        echo "<img src='data:image/png;base64,$imageFile' alt='page'>";
     }
 
-    public static function getPageTranslations () {
+    public static function buildTranslations ($v, $c, $p, $tag) {
+        $translations = getTraslationContent (
+            "NEEDLESS.manga",
+            ReaderView::$mangaInfo->volumes [$v]->n,
+            ReaderView::$mangaInfo->volumes [$v]->chapters [$c]->n,
+            $p,
+            $tag
+        );
+
         $output = '';
 
-        foreach (ReaderView::$translations as $tran) {
+        foreach ($translations as $tran) {
             $styling = 'top:' . $tran->top . '%;left:' . $tran->left . '%;width:' . $tran->width . 'vw;font-size:' . $tran->fontSize . 'vw;' . $tran->style;
             $output .= '<div class=\'generic_trans_box\' style=\'' . $styling . '\'>' . $tran->content . '</div>';
         }
 
-        return $output;
+        echo $output;
     }
 }
-
-// Set up the manga info
-ReaderView::$mangaInfo = generateMangaInfo ("NEEDLESS.manga");
-
-// Default volume to the first available volume
-ReaderView::$currentVolume = ReaderView::$mangaInfo->volumes [0];
-// Default chapter to the first available chapter of currentVolume
-ReaderView::$currentChapter = ReaderView::$currentVolume->chapters [0];
-// Default page to the first available page of the currentChapter
-ReaderView::$currentPage = 1;

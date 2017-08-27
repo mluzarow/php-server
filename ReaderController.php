@@ -1,4 +1,8 @@
 <?php
+
+// Set up metadata variable
+$mangaInfo = generateMangaInfo ("NEEDLESS.manga");
+
 /**
  * Creates a new Manga object holding meta information regarding the current
  * selected manga archive pointed to by $path.
@@ -90,12 +94,18 @@ function generateMangaInfo ($path) {
  *
  * @return  string  $base  Image data converted to base 64 rendered as a string.
  */
-function getImageFromArchive (string $path, $vol, $chap, $page) {
+function getImageFromArchive (string $path, $vol, $chap, $page, $color) {
     // Temporary
     $page = 7;
 
+    if ($color == 'y') {
+        $image = 'color.png';
+    } else {
+        $image = 'base.png';
+    }
+
     $manga_title = str_replace ('.manga', '', $path);
-    $base = file_get_contents("zip://$path#$manga_title/$vol/$chap/$page/base.png");
+    $base = file_get_contents("zip://$path#$manga_title/$vol/$chap/$page/$image");
     $base = base64_encode ($base);
 
     return ($base);

@@ -1,6 +1,5 @@
 <?php
-    require 'ReaderInit.php';
-    //require 'ReaderView.php';
+    require 'ReaderView.php';
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -11,33 +10,36 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-        <title><?php echo $reader->mangaInfo->title; ?> Manga</title>
+        <title id = "main_title"></title>
     </head>
     <body>
         <div id = "navigation">
             <div id = "nav_left">
                 <select id = "select_volume">
-                    <?php //$this->buildDropdownVolume();//ReaderView::generateDropdownVolume (); ?>
                 </select>
                 <select id = "select_chapter">
-                    <?php //ReaderView::generateDropdownChapter (); ?>
                 </select>
                 <select id = "select_page">
-                    <?php //ReaderView::generateDropdownPage (); ?>
                 </select>
             </div>
             <div id = "nav_right">
                 <div id = "scroller_container">
-                    <?php //generateScrollerItems (); ?>
                 </div>
             </div>
         </div>
         <div id = "page">
-            <?php //ReaderView::getPage (); ?>
+            <div id = "translations">
+            </div>
+            <div id = "image">
+            </div>
         </div>
         <select id = "language">
             <option value="en">English</option>
             <option value="jp">日本語</option>
+        </select>
+        <select id = "color">
+            <option value="n">Do not use color</option>
+            <option value="y">Use color</option>
         </select>
     </body>
 
