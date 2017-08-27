@@ -12,6 +12,13 @@ $(document).ready (function () {
     refreshTranslations ('translations', currentVolume, currentChapter, currentPage, 'en');
 });
 
+$('#language').change (function () {
+    var tag = $(this).val ();
+    console.log ("Language changed to " + tag + "!");
+
+    refreshTranslations ('translations', currentVolume, currentChapter, currentPage, tag);
+});
+
 function refreshTranslations (view, v, c, p, tag) {
     $.ajax({
         type: 'POST',
@@ -109,20 +116,3 @@ function renderTitleView (view) {
         }
     });
 }
-
-$('#language').change (function () {
-    var tag = $(this).val ();
-    console.log ("Language changed to " + tag + "!");
-
-    req = new XMLHttpRequest ();
-
-    req.onreadystatechange = function () {
-    	if (this.readyState == 4 && this.status == 200) {
-    	    console.log (this.responseText);
-    	}
-    };
-
-    req.open ("GET", "ReaderView.php?q=" + tag, true);
-    req.send ();
-
-});
