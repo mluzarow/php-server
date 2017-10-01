@@ -37,7 +37,7 @@ class ReaderView {
         echo ReaderView::$mangaInfo->title . 'Manga';
     }
 
-    public static function buildDropdownVolume ($v) {
+    public static function buildDropdownVolume () {
         $output = '';
 
         foreach (ReaderView::$mangaInfo->volumes as $volume) {
@@ -47,7 +47,7 @@ class ReaderView {
         echo $output;
     }
 
-    public static function buildDropdownChapter ($v, $c) {
+    public static function buildDropdownChapter ($v) {
         $output = '';
 
         foreach (ReaderView::$mangaInfo->volumes [$v]->chapters as $chapter) {
@@ -57,7 +57,7 @@ class ReaderView {
         echo ($output);
     }
 
-    public static function buildDropdownPage ($v, $c, $p) {
+    public static function buildDropdownPage ($v, $c) {
         $output = '';
 
         for ($i = 1; $i <= ReaderView::$mangaInfo->volumes [$v]->chapters [$c]->pages; $i++) {

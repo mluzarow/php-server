@@ -2,26 +2,56 @@
 var currentVolume = 0;
 var currentChapter = 0;
 var currentPage = 7; // Temp
+var currentLang = 'en';
+var currentColor = 'n';
 
 $(document).ready (function () {
-    renderTitleView ('main_title');
-    refreshDropdownView ('select_volume', currentVolume, currentChapter, currentPage);
-    refreshDropdownView ('select_chapter', currentVolume, currentChapter, currentPage);
-    refreshDropdownView ('select_page', currentVolume, currentChapter, currentPage);
-    refreshImage ('image', currentVolume, currentChapter, currentPage, 'n');
-    refreshTranslations ('translations', currentVolume, currentChapter, currentPage, 'en');
+    createAJAXRequest ({'view' : 'main_title'});
+    createAJAXRequest ({'view' : 'select_volume'});
+    createAJAXRequest ({'view' : 'select_chapter', 'v' : currentVolume});
+    createAJAXRequest ({
+        'view' : 'select_page',
+        'v' : currentVolume,
+        'c' : currentChapter
+    });
+    createAJAXRequest ({
+        'view' : 'image',
+        'v' : currentVolume,
+        'c' : currentChapter,
+        'p' : currentPage,
+        'color' : currentColor
+    });
+    createAJAXRequest ({
+        'view' : 'translations',
+        'v' : currentVolume,
+        'c' : currentChapter,
+        'p' : currentPage,
+        'tag' : currentLang
+    });
 });
 
 $('#language').change (function () {
-    var tag = $(this).val ();
+    currentLang = $(this).val ();
 
-    refreshTranslations ('translations', currentVolume, currentChapter, currentPage, tag);
+    createAJAXRequest ({
+        'view' : 'translations',
+        'v' : currentVolume,
+        'c' : currentChapter,
+        'p' : currentPage,
+        'tag' : currentLang
+    });
 });
 
 $('#color').change (function () {
-    var color = $(this).val ();
+    currentColor = $(this).val ();
 
-    refreshImage ('image', currentVolume, currentChapter, currentPage, color);
+    createAJAXRequest ({
+        'view' : 'image',
+        'v' : currentVolume,
+        'c' : currentChapter,
+        'p' : currentPage,
+        'color' : currentColor
+    });
 });
 
 $("#arrow_left").click(function () {
@@ -29,112 +59,41 @@ $("#arrow_left").click(function () {
         if (currentChapter == 0) {
             if (currentVolume != 0) {
                 currentVolume--;
-                //currentChapter = $mangaInfo->volumes [cur]->numChapters
-                //currentPage = $mangaInfo->volumes [cur]->chapters[cur]->pages
+                //currentChapter = getNumIndexedChapters (currentVolume);
+                //currentPage = getNumIndexedPages (currentVolume, currentChapter);
             }
         } else {
             currentChapter--;
-            //currentPage = $mangaInfo->volumes [cur]->chapters[cur]->pages
+            //currentPage = getNumIndexedPages (currentVolume, currentChapter);
         }
     } else {
         currentPage--;
     }
 
-    //refreshImage ('image', currentVolume, currentChapter, currentPage, 'n');
-    //refreshTranslations ('translations', currentVolume, currentChapter, currentPage, 'en');
+    //refreshImage ('image', currentVolume, currentChapter, currentPage, currentColor);
+    //refreshTranslations ('translations', currentVolume, currentChapter, currentPage, currentLang);
 });
 
 $("#arrow_right").click(function () {
     //if (currentPage == )
 });
 
-function refreshTranslations (view, v, c, p, tag) {
-    $.ajax({
-        type: 'POST',
-        url: 'ReaderView.php',
-        data: {
-            'view' : view,
-            'v' : v,
-            'c' : c,
-            'p' : p,
-            'tag' : tag
-        },
-        cache: false,
-        success: function(response) {
-            $('#translations').html (response);
-        },
-        error: function(xhr) {
-           var response = xhr.responseText;
-           console.log(response);
-           var statusMessage = xhr.status + ' ' + xhr.statusText;
-           var message  = 'Query failed, php script returned this status: ';
-           var message = message + statusMessage + ' response: ' + response;
-           alert(message);
-        }
-    });
+function getNumIndexedChapters (v) {
+
 }
 
-function refreshImage (view, v, c, p, color) {
-    $.ajax({
-        type: 'POST',
-        url: 'ReaderView.php',
-        data: {
-            'view' : view,
-            'v' : v,
-            'c' : c,
-            'p' : p,
-            'color' : color
-        },
-        cache: false,
-        success: function(response) {
-            $('#image').html (response);
-        },
-        error: function(xhr) {
-           var response = xhr.responseText;
-           console.log(response);
-           var statusMessage = xhr.status + ' ' + xhr.statusText;
-           var message  = 'Query failed, php script returned this status: ';
-           var message = message + statusMessage + ' response: ' + response;
-           alert(message);
-        }
-    });
+function getNumIndexedPages (v, c) {
+
 }
 
-function refreshDropdownView (view, v, c, p) {
-    $.ajax({
+function createAJAXRequest (variables) {
+    $.ajax ({
         type: 'POST',
         url: 'ReaderView.php',
-        data: {
-            'view' : view,
-            'v' : v,
-            'c' : c,
-            'p' : p
-        },
+        data: variables,
         cache: false,
-        success: function(response) {
-            $('#' + view).html (response);
-        },
-        error: function(xhr) {
-           var response = xhr.responseText;
-           console.log(response);
-           var statusMessage = xhr.status + ' ' + xhr.statusText;
-           var message  = 'Query failed, php script returned this status: ';
-           var message = message + statusMessage + ' response: ' + response;
-           alert(message);
-        }
-    });
-}
-
-function renderTitleView (view) {
-    $.ajax({
-        type: 'POST',
-        url: 'ReaderView.php',
-        data: {
-            'view' : view
-        },
-        cache: false,
-        success: function(response) {
-            $('#main_title').html (response);
+        success: function (response) {
+            $('#' + variables['view']).html (response);
         },
         error: function(xhr) {
            var response = xhr.responseText;
